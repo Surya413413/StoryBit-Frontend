@@ -1,36 +1,201 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+#  Streaming Dashboard – Next.js 14 (App Router) + TypeScript
 
-## Getting Started
+A simplified streaming dashboard (similar to Netflix UI) built using:
 
-First, run the development server:
+- **Next.js 14 (App Router)**
+- **TypeScript**
+- **Pure CSS / Tailwind (any style as needed)**
+- **OMDb Sample API (free, no key required)**
+- **Next/Image Optimization**
+- **Dynamic Routing**
+- **Server Components**
 
-```bash
+This project displays:
+
+- A **Hero Banner** (featured movie)
+- Multiple **Movie Rows**
+- Reusable **MovieCard** component
+- **Dynamic Movie Detail Page**
+- Fully responsive UI
+- Ready for **Vercel deployment**
+
+---
+
+##  Features
+
+###  Homepage
+- Fetches movies from OMDb sample API:
+  - Popular movies (Avengers)
+  - Top Rated movies (Batman)
+  - Now Playing (Superman)
+- Each category is displayed as a **horizontal scroll row**
+
+###  Components
+- **HeroBanner** – Large hero section showing featured movie
+- **MovieRow** – Scrollable row of movies
+- **MovieCard** – Poster thumbnail + title
+- **Dynamic Detail Page** – `/movie/[id]`
+
+###  API Integration
+Using OMDb sample public API (no auth needed):
+
+https://www.omdbapi.com/?s=avengers&apikey=thewdb
+https://www.omdbapi.com/?i={movie_id}&apikey=thewdb
+
+kotlin
+Copy code
+
+These endpoints return:
+
+```json
+{
+  "Title": "Avengers",
+  "Year": "2012",
+  "Poster": "https://...",
+  "imdbID": "tt0848228"
+}
+ Folder Structure
+python
+Copy code
+frontend/
+│  next.config.js
+│  package.json
+│  README.md
+│  
+├─ app/
+│  ├─ page.tsx
+│  ├─ globals.css
+│  ├─ movie/
+│  │   └─ [id]/
+│  │        └─ page.tsx
+│  └─ components/
+│      ├─ HeroBanner.tsx
+│      ├─ MovieRow.tsx
+│      └─ MovieCard.tsx
+│
+├─ lib/
+│   └─ movies.ts        # API calls
+│
+├─ types/
+│   └─ movie.ts         # TypeScript types
+│
+└─ public/
+    ├─ placeholder.png
+    └─ favicon.ico
+ Installation & Setup
+1️ Install dependencies
+sh
+Copy code
+npm install
+2️ Development server
+sh
+Copy code
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+App runs at:
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+arduino
+Copy code
+http://localhost:3000
+ Deployment (Vercel)
+Push your code to GitHub
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Go to vercel.com → Add New Project
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Import the repository
 
-## Learn More
+Build & deploy automatically
 
-To learn more about Next.js, take a look at the following resources:
+Ensure next.config.js contains:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+js
+Copy code
+images: {
+  domains: ["m.media-amazon.com"],
+},
+This allows OMDb poster images to load.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+API Functions (lib/movies.ts)
+ts
+Copy code
+const BASE = "https://www.omdbapi.com/?apikey=thewdb";
 
-## Deploy on Vercel
+export async function fetchPopular() {
+  const res = await fetch(`${BASE}&s=avengers`);
+  const data = await res.json();
+  return data.Search || [];
+}
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+export async function fetchTopRated() {
+  const res = await fetch(`${BASE}&s=batman`);
+  const data = await res.json();
+  return data.Search || [];
+}
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+export async function fetchNowPlaying() {
+  const res = await fetch(`${BASE}&s=superman`);
+  const data = await res.json();
+  return data.Search || [];
+}
+
+export async function fetchMovieById(id: string) {
+  const res = await fetch(`${BASE}&i=${id}`);
+  return res.json();
+}
+ Supported Image Domains
+next.config.js
+js
+Copy code
+const nextConfig = {
+  images: {
+    domains: ["m.media-amazon.com"],
+  },
+};
+
+module.exports = nextConfig;
+ Testing
+Open localhost:3000
+
+Verify hero banner and movie rows load
+
+Click any movie → detail page must open
+
+Check console for errors
+
+Ensure placeholder loads when poster is "N/A"
+
+ ### AI Usage (For Your Submission)
+This project was partially developed with the help of AI tools such as ChatGPT for:
+
+Generating component boilerplate
+
+Fixing TypeScript errors
+
+Structuring API responses
+
+Debugging Next.js errors
+
+Creating this README file
+
+All design, logic, folder structure, and implementation decisions were finalized manually by the developer.
+
+ ### Credits
+OMDb API – Open Movie Database
+
+Next.js – App Router framework
+
+Vercel – Hosting platform
+
+### Final Notes
+This project meets all requirements for:
+
+Next.js streaming dashboard
+
+API integration
+
+Dynamic routing
+
+Reusable components
+
+Deployment-ready structure
+
+AI usage transparency
