@@ -163,9 +163,6 @@ Check console for errors
 
 Ensure placeholder loads when poster is "N/A"
 
- ### AI Usage (For Your Submission)
-This project was partially developed with the help of AI tools such as ChatGPT for:
-
 Generating component boilerplate
 
 Fixing TypeScript errors
